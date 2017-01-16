@@ -84,6 +84,9 @@ public class EjemploNeoDatis {
 		    consultasDeAgregado();
 		    break;
 		}
+		case 10: {
+		    consultasConGroupBy();
+		}
 		default: {
 		    break;
 		}
@@ -400,7 +403,7 @@ public class EjemploNeoDatis {
 	    valores2 = odb.getValues(new ValuesCriteriaQuery(Jugadores.class).avg("edad"));
 	    ovl1 = valores2.nextValues();
 	    BigDecimal mediaEdades = (BigDecimal) ovl.getByAlias("edad");
-	    
+
 	    System.out.println("La media de las edades de los jugadores es: " + mediaEdades.longValue());
 	} catch (ArithmeticException ae) {
 	    valores2 = odb.getValues(new ValuesCriteriaQuery(Jugadores.class).sum("edad").count("edad"));
@@ -427,6 +430,24 @@ public class EjemploNeoDatis {
 	System.out.println("Edad minima: " + edadMin + " Edad maxima: " + edadMax + " Cantidad jugadores: " + cantidad);
 	System.out.println();
 
+	odb.close();
+
+    }
+
+    private static void consultasConGroupBy() {
+	ODB odb = ODBFactory.open("equipos.db");
+	Values valores = odb.getValues(new ValuesCriteriaQuery(Jugadores.class, Where.isNotNull("pais.nombrePais")).field("pais.nombrePais").count("nombre").max("edad").sum("edad").groupBy("pais.nombrePais"));
+	if (valores.size() == 0) {
+	    System.out.println("No hay ningún resultado");
+	} else {
+	    while (valores.hasNext()) {
+		ObjectValues ov = valores.next();
+		BigDecimal sumaEdades = (BigDecimal) ov.getByIndex(3);
+		BigInteger cuentaJugadores = (BigInteger) ov.getByIndex(1);
+		float media = sumaEdades.floatValue() / cuentaJugadores.floatValue();
+		System.out.println("El pais " + ov.getByIndex(0) + " tiene " + ov.getByIndex(1) + " jugadores y la media de edad es " + media + ", en total suman " + sumaEdades + " años, y el de mayor edad tiene " + ov.getByIndex(2));
+	    }
+	}
 	odb.close();
 
     }
