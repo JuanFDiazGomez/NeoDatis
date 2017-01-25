@@ -17,11 +17,12 @@ import org.neodatis.odb.Objects;
 public class Ejemplo1ClienteBDDO {
 
     public static void main(String[] args) {
+        String url = "~/NetBeansProjects/NeoDatisDBOEjemplo1/equipos.db";
 	ODB odb = null;
 	ODBServer odbServer = null;
 	try {
 	    odbServer = ODBFactory.openServer(8000);
-	    odbServer.addBase("basedatos", "/home/alumno/NetBeansProjects/NeoDatisDBOEjemplo1/equipos.db");
+	    odbServer.addBase("basedatos", url);
 	    odbServer.startServer(Boolean.TRUE);
 	    
 	    odb = odbServer.openClient("basedatos");

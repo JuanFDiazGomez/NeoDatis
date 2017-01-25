@@ -44,6 +44,9 @@ public class EjemploNeoDatis {
 	    System.out.println("5. Borrado de objetos");
 	    System.out.println("6. Ejemplo de consultas varias");
 	    System.out.println("7. Ejemplo con consultas de varios parametros");
+	    System.out.println("8. Ejemplo de actualizar un pais");
+	    System.out.println("9. Ejemplo con consultas de agregado");
+	    System.out.println("10. Consultas con group by");
 	    System.out.println("0. Salir");
 	    System.out.print("Introduce la opción deseada: ");
 	    opcion = sc.nextInt();
